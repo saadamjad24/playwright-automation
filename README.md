@@ -22,14 +22,14 @@ The script performs the following tasks:
 1. **Install Dependencies**:
    Ensure you have Node.js installed, then install the Playwright dependencies:
    ```bash
-   npm install @playwright/test
+   npm install
    npx playwright install
    ```
 
 2. **Run the Script**:
    Execute the scraping script using the Playwright test runner:
    ```bash
-   npx playwright test tests/week1_scraper.spec.js
+   npx playwright test Automation/week1.js
    ```
 
 ## Output
