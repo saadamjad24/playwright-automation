@@ -1,0 +1,4 @@
+FirstName,LastName,Email,Gender,Mobile,DOBYear,DOBMonth,DOBDay,Subject,Hobby,State,City
+Ahmed,Khan,ahmedkhan@example.com,Male,03193456712,1995,May,15,Computer Science,Sports,NCR,Delhi
+Fatima,Ali,fatimaali@example.com,Female,03019876543,1998,August,22,Maths,Reading,Uttar Pradesh,Agra
+Usman,Raza,usmanraza@example.com,Male,03195567610,2000,December,10,Physics,Music,Haryana,Karnal
