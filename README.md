@@ -1,39 +1,44 @@
-# Playwright Web Scraping Automation (Week 1)
+# Playwright Automation Week 1 and week 2
 
-This project automates web scraping on [Books to Scrape](https://books.toscrape.com/) using Playwright and Node.js.
+A collection of web automation scripts built with Playwright and Node.js.
 
-## Task Overview
-The script performs the following tasks:
-1. Navigates to the target site.
-2. Scrapes all books rated 4 stars and above from the first 3 pages.
-3. Extracts the following data for each matched book: Title, Price, Rating, and Availability.
-4. Writes the extracted data into a structured JSON file.
-5. Generates a simple HTML report from the JSON data using the Node.js `fs` module.
-6. Takes a full-page screenshot of each of the 3 scraped pages.
 
-## Features
-- **End-to-End Automation**: The script runs completely without manual intervention.
-- **Robust Error Handling**: Uses proper `async/await` syntax and `try/catch` blocks.
-- **Clean Output Organization**: All generated files (JSON, HTML, screenshots) are cleanly organized into the `output/week1/` directory.
-- **Clear Code**: Clean and readable code with comments explaining key steps.
+1. **Install Dependencies:**
+```bash
+npm install
+npx playwright install
+```
 
-## Setup Instructions
+2. **Run Week 1 (Web Scraping):**
+```bash
+npx playwright test Automation/week1.js --project=chromium --headed
+```
 
-1. **Install Dependencies**:
-   Ensure you have Node.js installed, then install the Playwright dependencies:
-   ```bash
-   npm install
-   npx playwright install
-   ```
+3. **Run Week 2 (Form Automation):**
+```bash
+npx playwright test Automation/week2.js --project=chromium --headed
+```
 
-2. **Run the Script**:
-   Execute the scraping script using the Playwright test runner:
-   ```bash
-   npx playwright test Automation/week1.js
-   ```
+## Weekly Tasks
 
-## Output
-After execution, check the `output/week1/` folder for:
-- `page-1.png`, `page-2.png`, `page-3.png` - Full-page screenshots.
-- `books.json` - Structured JSON containing the scraped books.
-- `report.html` - A styled HTML report presenting the data.
+### Week 1: Web Scraping
+- Scrapes books rated 4 & 5 stars from books.toscrape.com
+- Saves data to JSON file
+- Generates HTML report
+- Takes full-page screenshots
+
+### Week 2: Form Automation
+- Reads student data from CSV file
+- Fills out practice form for each student
+- Handles date picker, dropdowns, file upload
+- Captures confirmation modal screenshots
+
+## Output Files
+
+### Week 1:
+- output/week1/books.json
+- output/week1/report.html
+- output/week1/page-1.png to page-3.png
+
+### Week 2:
+- output/week2/student-1.png to student-3.png
