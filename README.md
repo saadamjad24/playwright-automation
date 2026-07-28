@@ -1,56 +1,92 @@
-# Playwright Automation Week 1 and Week 2
+# Playwright Automation Project
 
 A collection of web automation scripts built with Playwright and Node.js.
 
-## Setup Instructions
+---
 
-1. **Install Dependencies:**
+## Week 1: Web Scraping Automation
+
+### What it does:
+This automation scrapes book data from [books.toscrape.com](https://books.toscrape.com) and generates structured output files.
+
+### Process:
+1. Opens the website in a browser automatically
+2. Loops through first 3 pages
+3. Filters books rated 4 and 5 stars only
+4. Extracts Title, Price, Rating and Availability for each book
+5. Saves all data to a structured JSON file
+6. Generates an HTML report from the JSON data
+7. Takes a full-page screenshot of each page after scraping
+
+### How to run:
 ```bash
+git checkout week1
 npm install
 npx playwright install
-```
-
-2. **Run Week 1 (Web Scraping):**
-```bash
 npx playwright test Automation/week1.js --project=chromium --headed
 ```
 
-3. **Run Week 2 (Form Automation):**
-```bash
-npx playwright test Automation/week2.js --project=chromium --headed
+### Output files generated:
+- `output/week1/books.json` — scraped book data
+- `output/week1/report.html` — visual HTML report
+- `output/week1/page-1.png` to `page-3.png` — full page screenshots
+
+---
+
+## Week 2: Form Automation & Dynamic Dropdowns
+
+### What it does:
+This automation reads student data from a CSV file and fills out a practice form for each student automatically.
+
+### Process:
+1. Reads 3 student records from `data/students.csv`
+2. For each student, navigates to the form and fills:
+   - Text fields (First Name, Last Name, Email, Mobile)
+   - Radio button (Gender)
+   - Date picker using calendar widget (DOB)
+   - Multi-select subjects using autocomplete dropdown
+   - Hobbies checkbox
+   - File upload (sample image)
+   - State & City dependent dropdowns
+3. Submits the form
+4. Captures confirmation modal title and logs to console
+5. Takes a screenshot of the modal for each student
+
+### Required Data:
+Before running Week 2, create the file `data/students.csv` manually.
+
+> ⚠️ This file is NOT included in the repo as per best practices. Never push data files to GitHub.
+
+### CSV Format:
+```csv
+FirstName,LastName,Email,Gender,Mobile,DOBYear,DOBMonth,DOBDay,Subject,Hobby,State,City
 ```
 
-## Important: Before Running Week 2
-
-Create a file `data/students.csv` with the following format:
-
+### Example:
 ```csv
 FirstName,LastName,Email,Gender,Mobile,DOBYear,DOBMonth,DOBDay,Subject,Hobby,State,City
 Ahmed,Khan,ahmed@example.com,Male,03193456712,1995,May,15,Computer Science,Sports,NCR,Delhi
+Fatima,Ali,fatima@example.com,Female,03019876543,1998,August,22,Maths,Reading,Uttar Pradesh,Agra
+Usman,Raza,usman@example.com,Male,03195567610,2000,December,10,Physics,Music,Haryana,Karnal
 ```
 
-> Note: This file is not included in the repo as per best practices. Create it manually before running Week 2 automation.
+### Available Options:
+- **Gender:** Male, Female, Other
+- **Subject:** Maths, Physics, Chemistry, Computer Science, English etc.
+- **Hobby:** Sports, Reading, Music
+- **State & City:** NCR (Delhi, Gurgaon), Uttar Pradesh (Agra, Lucknow), Haryana (Karnal, Panipat)
 
-## Weekly Tasks
+### How to run:
+```bash
+git checkout week2
+npm install
+npx playwright install
+npx playwright test Automation/week2.js --project=chromium --headed
+```
 
-### Week 1: Web Scraping
-- Scrapes books rated 4 & 5 stars from books.toscrape.com
-- Saves data to JSON file
-- Generates HTML report
-- Takes full-page screenshots
+### Output files generated:
+- `output/week2/student-1.png` — modal screenshot for student 1
+- `output/week2/student-2.png` — modal screenshot for student 2
+- `output/week2/student-3.png` — modal screenshot for student 3
 
-### Week 2: Form Automation
-- Reads student data from CSV file
-- Fills out practice form for each student
-- Handles date picker, dropdowns, file upload
-- Captures confirmation modal screenshots
-
-## Output Files
-
-### Week 1:
-- output/week1/books.json
-- output/week1/report.html
-- output/week1/page-1.png to page-3.png
-
-### Week 2:
-- output/week2/student-1.png to student-3.png
+---
