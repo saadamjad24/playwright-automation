@@ -55,7 +55,7 @@ This automation reads student data from a CSV file and fills out a practice form
 ### Required Data:
 Before running Week 2, create the file `data/students.csv` manually.
 
-> ⚠️ This file is NOT included in the repo as per best practices. Never push data files to GitHub.
+> ⚠️ This file is NOT included in the repo as per best practices.
 
 ### CSV Format:
 ```csv
