@@ -1,7 +1,8 @@
-# Playwright Automation Week 1 and week 2
+# Playwright Automation Week 1 and Week 2
 
 A collection of web automation scripts built with Playwright and Node.js.
 
+## Setup Instructions
 
 1. **Install Dependencies:**
 ```bash
@@ -18,6 +19,17 @@ npx playwright test Automation/week1.js --project=chromium --headed
 ```bash
 npx playwright test Automation/week2.js --project=chromium --headed
 ```
+
+## Important: Before Running Week 2
+
+Create a file `data/students.csv` with the following format:
+
+```csv
+FirstName,LastName,Email,Gender,Mobile,DOBYear,DOBMonth,DOBDay,Subject,Hobby,State,City
+Ahmed,Khan,ahmed@example.com,Male,03193456712,1995,May,15,Computer Science,Sports,NCR,Delhi
+```
+
+> Note: This file is not included in the repo as per best practices. Create it manually before running Week 2 automation.
 
 ## Weekly Tasks
 
