@@ -2,7 +2,7 @@
 
 This project automates web scraping on [Books to Scrape](https://books.toscrape.com/) using Playwright and Node.js.
 
-## Task Overview
+## The Automation & Process
 The script performs the following tasks:
 1. Navigates to the target site.
 2. Scrapes all books rated 4 stars and above from the first 3 pages.
@@ -11,11 +11,21 @@ The script performs the following tasks:
 5. Generates a simple HTML report from the JSON data using the Node.js `fs` module.
 6. Takes a full-page screenshot of each of the 3 scraped pages.
 
-## Features
-- **End-to-End Automation**: The script runs completely without manual intervention.
-- **Robust Error Handling**: Uses proper `async/await` syntax and `try/catch` blocks.
-- **Clean Output Organization**: All generated files (JSON, HTML, screenshots) are cleanly organized into the `output/week1/` directory.
-- **Clear Code**: Clean and readable code with comments explaining key steps.
+## Required Data
+No external data files or CSVs are required for this week's task, as the data is scraped directly from the website.
+
+## Example Format
+The output `books.json` format will look like this:
+```json
+[
+  {
+    "title": "A Light in the Attic",
+    "price": "£51.77",
+    "rating": "3",
+    "availability": "In stock"
+  }
+]
+```
 
 ## Setup Instructions
 
@@ -27,9 +37,9 @@ The script performs the following tasks:
    ```
 
 2. **Run the Script**:
-   Execute the scraping script using the Playwright test runner:
+   Execute the scraping script using Node:
    ```bash
-   npx playwright test tests/week1_scraper.spec.js
+   npx playwright test Automation/week1.js
    ```
 
 ## Output
