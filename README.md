@@ -1,4 +1,5 @@
 
+
 ## Setup Instructions
 
 1. **Install Dependencies:**
@@ -72,17 +73,16 @@ This automation reads student data from a CSV file and fills out a practice form
 5. Takes a screenshot of the modal for each student
 
 ### Required Data:
-Before running Week 2, create these files manually:
+Before running Week 2, create the file `data/students.csv` manually.
 
-**1. `data/students.csv`**
-> Not included in repo as per best practices. Never push data files to GitHub.
+>  This file is NOT included in the repo as per best practices. Never push data files to GitHub.
 
-CSV Format:
+### CSV Format:
 ```csv
 FirstName,LastName,Email,Gender,Mobile,DOBYear,DOBMonth,DOBDay,Subject,Hobby,State,City
 ```
 
-Example:
+### Example:
 ```csv
 FirstName,LastName,Email,Gender,Mobile,DOBYear,DOBMonth,DOBDay,Subject,Hobby,State,City
 Ahmed,Khan,ahmed@example.com,Male,03193456712,1995,May,15,Computer Science,Sports,NCR,Delhi
@@ -90,13 +90,11 @@ Fatima,Ali,fatima@example.com,Female,03019876543,1998,August,22,Maths,Reading,Ut
 Usman,Raza,usman@example.com,Male,03195567610,2000,December,10,Physics,Music,Haryana,Karnal
 ```
 
-Available Options:
+### Available Options:
 - **Gender:** Male, Female, Other
 - **Subject:** Maths, Physics, Chemistry, Computer Science, English etc.
 - **Hobby:** Sports, Reading, Music
 - **State & City:** NCR (Delhi, Gurgaon), Uttar Pradesh (Agra, Lucknow), Haryana (Karnal, Panipat)
-
-
 
 ### Output files generated:
 - `output/week2/student-1.png` — modal screenshot for student 1
