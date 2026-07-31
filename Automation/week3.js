@@ -55,8 +55,8 @@ test.describe.serial('Week 3 Automation Tasks', () => {
     const frame = page.frameLocator('#mce_0_ifr');
     const body = frame.locator('body');
     
-    // wait for TinyMCE to be fully initialized and editable
-    await body.waitFor({ state: 'visible' });
+    // wait for TinyMCE to be fully initialized and attached
+    await body.waitFor({ state: 'attached' });
     
     // There might be a close button for the TinyMCE alert in the main frame, click it if it exists
     const closeAlert = page.locator('.tox-notification__dismiss');
@@ -76,7 +76,7 @@ test.describe.serial('Week 3 Automation Tasks', () => {
     }
 
     // clear existing text by selecting all and deleting
-    await body.click({ force: true });
+    await body.focus();
     const modifier = process.platform === 'darwin' ? 'Meta' : 'Control';
     
     await page.keyboard.down(modifier);
