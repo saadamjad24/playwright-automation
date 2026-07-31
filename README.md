@@ -1,21 +1,26 @@
-# Playwright Web Scraping Automation (Week 1)
+# Playwright Web Automation (Week 2)
 
-This project automates web scraping on [Books to Scrape](https://books.toscrape.com/) using Playwright and Node.js.
+This project automates web interactions on [DemoQA](https://demoqa.com/automation-practice-form) using Playwright and Node.js.
 
-## Task Overview
-The script performs the following tasks:
-1. Navigates to the target site.
-2. Scrapes all books rated 4 stars and above from the first 3 pages.
-3. Extracts the following data for each matched book: Title, Price, Rating, and Availability.
-4. Writes the extracted data into a structured JSON file.
-5. Generates a simple HTML report from the JSON data using the Node.js `fs` module.
-6. Takes a full-page screenshot of each of the 3 scraped pages.
+## The Automation & Process
+The script automates the process of filling out a complex web form for multiple users. 
+1. The script first parses student data from a local CSV file.
+2. It loops through each student record and navigates to the DemoQA Practice Form.
+3. It dynamically interacts with various HTML elements including text inputs, radio buttons, checkboxes, dropdowns, date pickers, and even performs a file upload.
+4. Finally, it submits the form and takes a screenshot of the filled form.
 
-## Features
-- **End-to-End Automation**: The script runs completely without manual intervention.
-- **Robust Error Handling**: Uses proper `async/await` syntax and `try/catch` blocks.
-- **Clean Output Organization**: All generated files (JSON, HTML, screenshots) are cleanly organized into the `output/week1/` directory.
-- **Clear Code**: Clean and readable code with comments explaining key steps.
+## Required Data
+The automation requires a CSV file located at `data/students.csv`. This file must contain the student records that you wish to process.
+Additionally, you need a sample image file located at `assets/sample.jpg` to test the file upload functionality.
+
+## Example Format
+The `data/students.csv` should follow this format:
+
+```csv
+firstName,lastName,email,gender,mobile,dob,subjects,hobbies,address,state,city
+John,Doe,john@test.com,Male,1234567890,15 May 2000,Maths,Sports,123 Street,NCR,Delhi
+Jane,Smith,jane@test.com,Female,0987654321,20 June 2001,Physics,Reading,456 Avenue,Haryana,Karnal
+```
 
 ## Setup Instructions
 
@@ -27,13 +32,10 @@ The script performs the following tasks:
    ```
 
 2. **Run the Script**:
-   Execute the scraping script using the Playwright test runner:
+   Execute the script using Node:
    ```bash
-   npx playwright test tests/week1_scraper.spec.js
+   npx playwright test Automation/week2.js
    ```
 
 ## Output
-After execution, check the `output/week1/` folder for:
-- `page-1.png`, `page-2.png`, `page-3.png` - Full-page screenshots.
-- `books.json` - Structured JSON containing the scraped books.
-- `report.html` - A styled HTML report presenting the data.
+After execution, check the `output/week2/` folder for screenshots of each submitted form.
