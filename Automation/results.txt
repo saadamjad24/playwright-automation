@@ -1,0 +1,18 @@
+Week 3 Results
+================
+
+--- Task 12: New Window ---
+New Window
+
+--- Task 13: iframe ---
+Typed formatted paragraph in TinyMCE.
+
+--- Task 14: Nested Frames ---
+Top-Left: LEFT
+Top-Middle: MIDDLE
+Top-Right: RIGHT
+Bottom: BOTTOM
+
+--- Task 15: Basic Auth ---
+Congratulations! You must have the proper credentials.
+
