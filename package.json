@@ -1,7 +1,7 @@
 {
   "name": "playwright-automation",
   "version": "1.0.0",
-  "description": "",
+  "description": "Week 2: Form automation with CSV and dynamic dropdowns",
   "main": "index.js",
   "scripts": {},
   "keywords": [],
