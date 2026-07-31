@@ -1,129 +1,140 @@
-const { test, expect } = require('@playwright/test');
+
+
+const { test } = require('@playwright/test');
 const fs = require('fs');
 const path = require('path');
 
-test.describe.serial('Week 3 Automation Tasks', () => {
+test('Week 3: Multi-Tab & iframe Handling', async ({ page, context }) => {
 
-  let outputDir;
-  let screenshotsDir;
-  let resultsFile;
+  const screenshotsDir = path.join(__dirname, '..', 'output', 'week3', 'screenshots');
+  const resultsFile = path.join(__dirname, '..', 'output', 'week3', 'results.txt');
 
-  test.beforeAll(() => {
-    // Create directories if they don't exist
-    outputDir = path.join(__dirname, '../output/week3');
-    screenshotsDir = path.join(outputDir, 'screenshots');
-    
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir, { recursive: true });
-    }
-    if (!fs.existsSync(screenshotsDir)) {
-      fs.mkdirSync(screenshotsDir, { recursive: true });
-    }
-    
-    resultsFile = path.join(outputDir, 'results.txt');
-    fs.writeFileSync(resultsFile, 'Week 3 Results\n================\n\n');
-  });
+  if (!fs.existsSync(screenshotsDir)) {
+    fs.mkdirSync(screenshotsDir, { recursive: true });
+  }
 
-  test('Task 12: Multi-tab handling', async ({ page, context }) => {
-    console.log('Task 12: /windows');
-    await page.goto('https://the-internet.herokuapp.com/windows');
-    await page.screenshot({ path: path.join(screenshotsDir, '1_windows_page.png') });
-    
-    // click the link, switch to new tab
-    const [newPage] = await Promise.all([
-      context.waitForEvent('page'),
-      page.click('text="Click Here"')
-    ]);
-    
-    await newPage.waitForLoadState('domcontentloaded');
-    await newPage.screenshot({ path: path.join(screenshotsDir, '2_new_window.png') });
-    
-    // extract the text
-    const newWindowText = await newPage.locator('h3').innerText();
-    fs.appendFileSync(resultsFile, '--- Task 12: New Window ---\n' + newWindowText + '\n\n');
-    
-    // close the tab, return to original
-    await newPage.close();
-    await page.bringToFront();
-  });
+  let results = '';
 
-  test('Task 13: iframe handling', async ({ page }) => {
-    console.log('Task 13: /iframe');
-    await page.goto('https://the-internet.herokuapp.com/iframe');
-    await page.screenshot({ path: path.join(screenshotsDir, '3_iframe_page_before.png') });
-    
-    const frame = page.frameLocator('#mce_0_ifr');
-    const body = frame.locator('#tinymce');
-    
-    // wait for TinyMCE to be fully initialized
-    await expect(body).toBeVisible({ timeout: 15000 });
-    
-    // There might be a close button for the TinyMCE alert in the main frame, click it if it exists
-    const closeAlert = page.locator('.tox-notification__dismiss');
-    if (await closeAlert.count() > 0) {
-      await closeAlert.click({ force: true }).catch(() => {});
-    }
+  
+  // Multi-Tab Handling
+  
+  console.log('Multi-Tab Handling...');
 
-    // clear existing text by selecting all and deleting
-    await body.click({ force: true });
-    const modifier = process.platform === 'darwin' ? 'Meta' : 'Control';
-    
-    await page.keyboard.down(modifier);
-    await page.keyboard.press('a');
-    await page.keyboard.up(modifier);
-    await page.keyboard.press('Backspace');
-    
-    // type a formatted paragraph (bold + italic using keyboard shortcuts)
-    await page.keyboard.down(modifier);
-    await page.keyboard.press('b'); // bold
-    await page.keyboard.press('i'); // italic
-    await page.keyboard.up(modifier);
-    
-    await page.keyboard.type('This is a formatted paragraph with bold and italic text.');
-    
-    await page.screenshot({ path: path.join(screenshotsDir, '4_iframe_page_after.png') });
-    fs.appendFileSync(resultsFile, '--- Task 13: iframe ---\nTyped formatted paragraph in TinyMCE.\n\n');
-  });
+  await page.goto('https://the-internet.herokuapp.com/windows');
+  await page.waitForLoadState('networkidle');
+  await page.screenshot({ path: path.join(screenshotsDir, '01-windows-page.png'), fullPage: true });
 
-  test('Task 14: Nested frames', async ({ page }) => {
-    console.log('Task 14: /nested_frames');
-    await page.goto('https://the-internet.herokuapp.com/nested_frames');
-    await page.screenshot({ path: path.join(screenshotsDir, '5_nested_frames.png') });
-    
-    // Extract text from frames
-    const topFrame = page.frame({ name: 'frame-top' });
-    const leftFrame = topFrame.childFrames().find(f => f.name() === 'frame-left');
-    const middleFrame = topFrame.childFrames().find(f => f.name() === 'frame-middle');
-    const rightFrame = topFrame.childFrames().find(f => f.name() === 'frame-right');
-    const bottomFrame = page.frame({ name: 'frame-bottom' });
-    
-    const leftText = await leftFrame.locator('body').innerText();
-    const middleText = await middleFrame.locator('body').innerText();
-    const rightText = await rightFrame.locator('body').innerText();
-    const bottomText = await bottomFrame.locator('body').innerText();
-    
-    const nestedFramesText = `Top-Left: ${leftText.trim()}\nTop-Middle: ${middleText.trim()}\nTop-Right: ${rightText.trim()}\nBottom: ${bottomText.trim()}`;
-    fs.appendFileSync(resultsFile, '--- Task 14: Nested Frames ---\n' + nestedFramesText + '\n\n');
-  });
+  const [newTab] = await Promise.all([
+    context.waitForEvent('page'),
+    page.locator('a[href="/windows/new"]').click()
+  ]);
 
-  test('Task 15: Basic Auth', async ({ browser }) => {
-    console.log('Task 15: /basic_auth');
-    // Using a new context for basic auth to set credentials cleanly
-    const authContext = await browser.newContext({
-      httpCredentials: {
-        username: 'admin',
-        password: 'admin'
-      }
-    });
-    const authPage = await authContext.newPage();
-    
-    await authPage.goto('https://the-internet.herokuapp.com/basic_auth');
-    await authPage.screenshot({ path: path.join(screenshotsDir, '6_basic_auth.png') });
-    
-    const authText = await authPage.locator('.example p').innerText();
-    fs.appendFileSync(resultsFile, '--- Task 15: Basic Auth ---\n' + authText + '\n\n');
-    
-    await authContext.close();
-    console.log('Week 3 tasks completed successfully! Check results.txt and screenshots folder.');
-  });
+  await newTab.waitForLoadState('networkidle');
+  const newTabText = await newTab.locator('h3').textContent();
+  console.log(`New Tab Text: ${newTabText}`);
+  await newTab.screenshot({ path: path.join(screenshotsDir, '02-new-tab.png'), fullPage: true });
+
+  await newTab.close();
+  await page.bringToFront();
+  await page.screenshot({ path: path.join(screenshotsDir, '03-returned-to-original.png'), fullPage: true });
+
+  results += 'Multi-Tab Handling\n';
+  results += `New Tab Text: ${newTabText}\n\n`;
+
+  // Task 13: iframe Handling 
+ 
+  await page.goto('https://the-internet.herokuapp.com/iframe');
+await page.waitForLoadState('networkidle');
+await page.waitForTimeout(3000);
+await page.screenshot({ path: path.join(screenshotsDir, '04-iframe-page.png'), fullPage: true });
+
+// Dismiss TinyMCE popup if visible
+const dismissBtn = page.locator('.tox-notification__dismiss');
+if (await dismissBtn.isVisible()) {
+    await dismissBtn.click();
+    await page.waitForTimeout(500);
+}
+
+// Switch into TinyMCE iframe
+const iframeHandle = page.frameLocator('#mce_0_ifr');
+
+// Click body to focus with force
+await iframeHandle.locator('body#tinymce').click({ force: true });
+await page.waitForTimeout(1000);
+
+// Select all and delete
+await page.keyboard.press('Control+a');
+await page.keyboard.press('Backspace');
+await page.waitForTimeout(500);
+
+// Type bold text
+await page.keyboard.press('Control+b');
+await page.keyboard.type('Bold Text', { delay: 100 });
+await page.keyboard.press('Control+b');
+
+// Space
+await page.keyboard.type(' ');
+
+// Type italic text
+await page.keyboard.press('Control+i');
+await page.keyboard.type('Italic Text', { delay: 100 });
+await page.keyboard.press('Control+i');
+
+await page.waitForTimeout(500);
+await page.screenshot({ path: path.join(screenshotsDir, '05-iframe-typed.png'), fullPage: true });
+
+results += 'iframe Handling\n';
+results += 'Cleared existing text and typed bold + italic text in TinyMCE iframe\n\n';
+
+  // Task 14: Nested Frames
+
+  console.log('Nested Frames...');
+
+  await page.goto('https://the-internet.herokuapp.com/nested_frames');
+  await page.waitForLoadState('networkidle');
+  await page.screenshot({ path: path.join(screenshotsDir, '06-nested-frames.png'), fullPage: true });
+
+  // frame-left, frame-middle, frame-right are INSIDE frame-top
+ 
+  const topLeftText = await page.frame({ name: 'frame-left' }).locator('body').innerText();
+  const topMiddleText = await page.frame({ name: 'frame-middle' }).locator('body').innerText();
+  const topRightText = await page.frame({ name: 'frame-right' }).locator('body').innerText();
+  const bottomText = await page.frame({ name: 'frame-bottom' }).locator('body').innerText();
+
+  console.log(`Top Left: ${topLeftText}`);
+  console.log(`Top Middle: ${topMiddleText}`);
+  console.log(`Top Right: ${topRightText}`);
+  console.log(`Bottom: ${bottomText}`);
+
+  results += 'Nested Frames\n';
+  results += `Top Left: ${topLeftText}\n`;
+  results += `Top Middle: ${topMiddleText}\n`;
+  results += `Top Right: ${topRightText}\n`;
+  results += `Bottom: ${bottomText}\n\n`;
+
+  
+  // Basic Auth
+ 
+  console.log('Basic Auth...');
+
+  await page.goto('https://admin:admin@the-internet.herokuapp.com/basic_auth');
+  await page.waitForLoadState('networkidle');
+  await page.screenshot({ path: path.join(screenshotsDir, '07-basic-auth.png'), fullPage: true });
+
+  const authText = await page.locator('.example p').textContent();
+  console.log(`Auth Text: ${authText}`);
+
+  results += 'Basic Auth\n';
+  results += `Auth Result: ${authText}\n\n`;
+
+ 
+  // Save results.txt
+  
+  console.log('Saving results to results.txt...');
+  fs.writeFileSync(resultsFile, results);
+  console.log(`Results saved to: ${resultsFile}`);
+
+  await page.screenshot({ path: path.join(screenshotsDir, '08-final.png'), fullPage: true });
+
+  console.log('Week 3 automation completed successfully!');
 });
