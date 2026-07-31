@@ -13,7 +13,8 @@ import { defineConfig, devices } from '@playwright/test';
  * @see https://playwright.dev/docs/test-configuration
  */
 export default defineConfig({
-  testDir: './tests',
+  testDir: './Automation',
+  testMatch: '**/*.js',
   /* Maximum time one test can run for, in milliseconds.
      Increased because slowMo + waitForTimeout calls can push tests past the 30s default. */
   timeout: 90 * 1000, // 90 seconds
