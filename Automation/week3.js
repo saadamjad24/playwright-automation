@@ -1,28 +1,30 @@
-const { chromium } = require('playwright');
+const { test, expect } = require('@playwright/test');
 const fs = require('fs');
 const path = require('path');
 
-(async () => {
-  const browser = await chromium.launch({ headless: false });
-  const context = await browser.newContext();
-  const page = await context.newPage();
+test.describe.serial('Week 3 Automation Tasks', () => {
 
-  // Create directories if they don't exist
-  const outputDir = path.join(__dirname, '../output/week3');
-  const screenshotsDir = path.join(outputDir, 'screenshots');
-  
-  if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir, { recursive: true });
-  }
-  if (!fs.existsSync(screenshotsDir)) {
-    fs.mkdirSync(screenshotsDir, { recursive: true });
-  }
-  
-  const resultsFile = path.join(outputDir, 'results.txt');
-  fs.writeFileSync(resultsFile, 'Week 3 Results\n================\n\n');
+  let outputDir;
+  let screenshotsDir;
+  let resultsFile;
 
-  try {
-    // 12. Navigate to /windows
+  test.beforeAll(() => {
+    // Create directories if they don't exist
+    outputDir = path.join(__dirname, '../output/week3');
+    screenshotsDir = path.join(outputDir, 'screenshots');
+    
+    if (!fs.existsSync(outputDir)) {
+      fs.mkdirSync(outputDir, { recursive: true });
+    }
+    if (!fs.existsSync(screenshotsDir)) {
+      fs.mkdirSync(screenshotsDir, { recursive: true });
+    }
+    
+    resultsFile = path.join(outputDir, 'results.txt');
+    fs.writeFileSync(resultsFile, 'Week 3 Results\n================\n\n');
+  });
+
+  test('Task 12: Multi-tab handling', async ({ page, context }) => {
     console.log('Task 12: /windows');
     await page.goto('https://the-internet.herokuapp.com/windows');
     await page.screenshot({ path: path.join(screenshotsDir, '1_windows_page.png') });
@@ -43,8 +45,9 @@ const path = require('path');
     // close the tab, return to original
     await newPage.close();
     await page.bringToFront();
+  });
 
-    // 13. Navigate to /iframe
+  test('Task 13: iframe handling', async ({ page }) => {
     console.log('Task 13: /iframe');
     await page.goto('https://the-internet.herokuapp.com/iframe');
     await page.waitForLoadState('networkidle'); // Wait for TinyMCE to load
@@ -83,7 +86,6 @@ const path = require('path');
     await page.keyboard.press('Backspace');
     
     // type a formatted paragraph (bold + italic using keyboard shortcuts)
-    
     await page.keyboard.down(modifier);
     await page.keyboard.press('b'); // bold
     await page.keyboard.press('i'); // italic
@@ -93,8 +95,9 @@ const path = require('path');
     
     await page.screenshot({ path: path.join(screenshotsDir, '4_iframe_page_after.png') });
     fs.appendFileSync(resultsFile, '--- Task 13: iframe ---\nTyped formatted paragraph in TinyMCE.\n\n');
+  });
 
-    // 14. Navigate to /nested_frames
+  test('Task 14: Nested frames', async ({ page }) => {
     console.log('Task 14: /nested_frames');
     await page.goto('https://the-internet.herokuapp.com/nested_frames');
     await page.screenshot({ path: path.join(screenshotsDir, '5_nested_frames.png') });
@@ -113,8 +116,9 @@ const path = require('path');
     
     const nestedFramesText = `Top-Left: ${leftText.trim()}\nTop-Middle: ${middleText.trim()}\nTop-Right: ${rightText.trim()}\nBottom: ${bottomText.trim()}`;
     fs.appendFileSync(resultsFile, '--- Task 14: Nested Frames ---\n' + nestedFramesText + '\n\n');
+  });
 
-    // 15. Navigate to /basic_auth
+  test('Task 15: Basic Auth', async ({ browser }) => {
     console.log('Task 15: /basic_auth');
     // Using a new context for basic auth to set credentials cleanly
     const authContext = await browser.newContext({
@@ -132,12 +136,6 @@ const path = require('path');
     fs.appendFileSync(resultsFile, '--- Task 15: Basic Auth ---\n' + authText + '\n\n');
     
     await authContext.close();
-
     console.log('Week 3 tasks completed successfully! Check results.txt and screenshots folder.');
-
-  } catch (error) {
-    console.error('An error occurred:', error);
-  } finally {
-    await browser.close();
-  }
-})();
+  });
+});
