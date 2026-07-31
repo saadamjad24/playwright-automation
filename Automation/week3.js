@@ -50,7 +50,6 @@ test.describe.serial('Week 3 Automation Tasks', () => {
   test('Task 13: iframe handling', async ({ page }) => {
     console.log('Task 13: /iframe');
     await page.goto('https://the-internet.herokuapp.com/iframe');
-    await page.waitForLoadState('networkidle'); // Wait for TinyMCE to load
     await page.screenshot({ path: path.join(screenshotsDir, '3_iframe_page_before.png') });
     
     const frame = page.frameLocator('#mce_0_ifr');
@@ -77,7 +76,7 @@ test.describe.serial('Week 3 Automation Tasks', () => {
     }
 
     // clear existing text by selecting all and deleting
-    await body.click();
+    await body.click({ force: true });
     const modifier = process.platform === 'darwin' ? 'Meta' : 'Control';
     
     await page.keyboard.down(modifier);
