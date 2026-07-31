@@ -24,9 +24,9 @@ No external data file is required for this week's task.
    ```
 
 2. **Run the Script**:
-   Execute the script using Node:
+   Execute the script using the Playwright test runner:
    ```bash
-   node Automation/week3.js
+   npx playwright test Automation/week3.js
    ```
 
 ## Output Format Example
