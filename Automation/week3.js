@@ -53,30 +53,19 @@ test.describe.serial('Week 3 Automation Tasks', () => {
     await page.screenshot({ path: path.join(screenshotsDir, '3_iframe_page_before.png') });
     
     const frame = page.frameLocator('#mce_0_ifr');
-    const body = frame.locator('body');
+    const body = frame.locator('#tinymce');
     
-    // wait for TinyMCE to be fully initialized and attached
-    await body.waitFor({ state: 'attached' });
+    // wait for TinyMCE to be fully initialized
+    await expect(body).toBeVisible({ timeout: 15000 });
     
     // There might be a close button for the TinyMCE alert in the main frame, click it if it exists
     const closeAlert = page.locator('.tox-notification__dismiss');
     if (await closeAlert.count() > 0) {
-      await closeAlert.click();
-    }
-    
-    // Wait for it to become contenteditable
-    try {
-      await page.waitForFunction(() => {
-        const iframe = document.querySelector('#mce_0_ifr');
-        if (!iframe) return false;
-        return iframe.contentDocument.body.getAttribute('contenteditable') === 'true';
-      }, { timeout: 5000 });
-    } catch (e) {
-      console.log('Timeout waiting for contenteditable, proceeding anyway...');
+      await closeAlert.click({ force: true }).catch(() => {});
     }
 
     // clear existing text by selecting all and deleting
-    await body.focus();
+    await body.click({ force: true });
     const modifier = process.platform === 'darwin' ? 'Meta' : 'Control';
     
     await page.keyboard.down(modifier);
