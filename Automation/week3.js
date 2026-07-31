@@ -8,12 +8,17 @@ const path = require('path');
   const page = await context.newPage();
 
   // Create directories if they don't exist
-  const screenshotsDir = path.join(__dirname, 'screenshots');
+  const outputDir = path.join(__dirname, '../output/week3');
+  const screenshotsDir = path.join(outputDir, 'screenshots');
+  
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+  }
   if (!fs.existsSync(screenshotsDir)) {
-    fs.mkdirSync(screenshotsDir);
+    fs.mkdirSync(screenshotsDir, { recursive: true });
   }
   
-  const resultsFile = path.join(__dirname, 'results.txt');
+  const resultsFile = path.join(outputDir, 'results.txt');
   fs.writeFileSync(resultsFile, 'Week 3 Results\n================\n\n');
 
   try {
