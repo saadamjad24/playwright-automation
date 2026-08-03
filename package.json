@@ -1,7 +1,7 @@
 {
   "name": "playwright-automation",
   "version": "1.0.0",
-  "description": "",
+  "description": "Week 1: Web scraping automation",
   "main": "index.js",
   "scripts": {},
   "keywords": [],
