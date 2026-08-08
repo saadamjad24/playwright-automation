@@ -128,3 +128,26 @@ This automation handles multi-tab browsing, iframes, nested frames and HTTP auth
 - `output/week3/screenshots/06-nested-frames.png`
 - `output/week3/screenshots/07-basic-auth.png`
 - `output/week3/screenshots/08-final.png`
+
+## Week 4: API Interaction + Browser Automation Combo
+
+### What it does
+- Makes API calls using Playwright request context (GET, POST, PUT, DELETE)
+- Logs all response status codes and bodies
+- Combines all user data from 2 pages into single array
+- Navigates to jsonplaceholder.typicode.com and takes screenshot
+- Generates a styled HTML report displaying all users in a table
+- Opens local HTML file in browser and takes final screenshot
+
+### Output Files
+- output/week4/api-results.txt
+- output/week4/report.html
+- output/week4/screenshots/01-jsonplaceholder.png
+- output/week4/screenshots/02-final-report.png
+
+### Skills Covered
+- API automation with Playwright request context
+- HTTP methods GET, POST, PUT and DELETE
+- Request and response handling
+- Combining API and browser workflows
+- Generating HTML reports using Node.js
