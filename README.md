@@ -151,3 +151,36 @@ This automation handles multi-tab browsing, iframes, nested frames and HTTP auth
 - Request and response handling
 - Combining API and browser workflows
 - Generating HTML reports using Node.js
+
+
+## Week 5: E-Commerce Workflow with Data-Driven Input
+
+### Site Used
+- https://www.saucedemo.com/
+
+### What it does
+- Reads user credentials and product lists from a JSON config file
+- Logs in with 3 different users (standard, problem, performance_glitch)
+- Adds each user's specific products to cart by matching product names
+- Verifies cart items by logging names and prices
+- Proceeds through checkout filling details from config file
+- Extracts item total, tax and grand total from overview page
+- Takes screenshots at every step
+- Logs out after each user
+- Generates a summary JSON file with all order details
+
+### Config File
+data/week5-config.json is not pushed for security reasons.
+Create it locally with user credentials, product lists and checkout details.
+
+### Output Files
+- output/week5/summary.json
+- output/week5/screenshots/
+
+### Skills Covered
+- Data-driven automation using JSON config file
+- Config management
+- Login and logout cycles
+- Cart workflows
+- Structured JSON output
+- Error handling for broken users
